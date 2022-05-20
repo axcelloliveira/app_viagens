@@ -26,14 +26,15 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => const LoginPage(),
-          binding: LoginBindings(),
+          page: ()=> SplashPage(),
+          binding: SplashBindings(),
         ),
         GetPage(
           name: '/login',
-          page: ()=> const SplashPage(),
-          binding: SplashBindings(),
+          page: () => const LoginPage(),
+          binding: LoginBindings(),
         ),
+
       ],
     );
   }
