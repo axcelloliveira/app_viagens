@@ -3,6 +3,7 @@ import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:viagens_app/comuns/custom_error_snackbar.dart';
 import 'package:viagens_app/comuns/custom_success_snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashController extends GetxController {
   LocalAuthentication localAuth = LocalAuthentication();
@@ -10,11 +11,13 @@ class SplashController extends GetxController {
   bool hasFaceLock = false;
   bool isUserAuthenticated = false;
   bool biometricsAvaliable = false;
+  late SharedPreferences access;
 
   @override
   void onInit() {
     super.onInit();
     _getAllBiometrics();
+    print('aaa');
     authenticateUser();
   }
 
@@ -34,39 +37,50 @@ class SplashController extends GetxController {
     } else {
       biometricsAvaliable = false;
     }
-
     update();
   }
 
   void authenticateUser() async {
-    try {
-      const androidMessage = AndroidAuthMessages(
-        signInTitle: 'Biometria Requerida',
-        cancelButton: 'Cancelar',
-        goToSettingsButton: 'Configurações',
-        goToSettingsDescription: 'Configure a validação por biometria ou FaceID.',
-        biometricHint: '',
-      );
+    access = await SharedPreferences.getInstance();
+    String localAccess = access.getString("username").toString();
+    if (localAccess != null || localAccess != '') {
+      if (biometricsAvaliable) {
+        try {
+          const androidMessage = AndroidAuthMessages(
+            signInTitle: 'Biometria Requerida',
+            cancelButton: 'Cancelar',
+            goToSettingsButton: 'Configurações',
+            goToSettingsDescription:
+                'Configure a validação por biometria ou FaceID.',
+            biometricHint: '',
+          );
 
-      isUserAuthenticated = await localAuth.authenticate(
-        localizedReason: 'Autentique sua identidade',
-        biometricOnly: true,
-        useErrorDialogs: true,
-        stickyAuth: true,
-        androidAuthStrings: androidMessage,
-      );
-      if (isUserAuthenticated) {
-        Get.offAndToNamed('/MenuPage');
-        showSuccessSnackBar(message: 'Você foi autenticado!');
+          isUserAuthenticated = await localAuth.authenticate(
+            localizedReason: 'Autentique sua identidade',
+            biometricOnly: true,
+            useErrorDialogs: true,
+            stickyAuth: true,
+            androidAuthStrings: androidMessage,
+          );
+          if (isUserAuthenticated) {
+            print('aaaxxxx');
+            Get.offAndToNamed('/MenuPage');
+            showSuccessSnackBar(message: 'Você foi autenticado!');
+          } else {
+            Get.offAndToNamed('/login');
+            showErrorSnackBar(message: "Faça login utilizando usuário e senha");
+          }
+        } catch (e) {
+          Get.offAndToNamed('/login');
+          showErrorSnackBar(
+              message:
+                  "A validação biometrica falhou, faça login utilizando login e senha.");
+        }
       } else {
         Get.offAndToNamed('/login');
-        showErrorSnackBar(message: "Faça login utilizando usuário e senha");
       }
-    } catch (e) {
+    } else {
       Get.offAndToNamed('/login');
-      showErrorSnackBar(
-          message:
-              "A validação biometrica falhou, faça login utilizando login e senha.");
     }
   }
 }
