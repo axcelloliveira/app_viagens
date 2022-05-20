@@ -23,6 +23,7 @@ class LoginController extends GetxController {
       if (result == 'success') {
         loginState = 'success';
         update();
+        Get.offAndToNamed('/MenuPage');
         showSuccessSnackBar(message: 'Validação feita com sucesso!');
       } else if (result == 'error') {
         loginState = 'error';
@@ -31,7 +32,9 @@ class LoginController extends GetxController {
       } else if (result == 'server_error') {
         loginState = 'server_error';
         update();
-        showErrorSnackBar(message: 'Falha de comunicação com o servidor. Verifique sua conexão com a internet e tente novamente.');
+        showErrorSnackBar(
+            message:
+                'Falha de comunicação com o servidor. Verifique sua conexão com a internet e tente novamente.');
       }
     }
   }
