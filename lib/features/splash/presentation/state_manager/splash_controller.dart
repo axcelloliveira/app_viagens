@@ -17,7 +17,6 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
     _getAllBiometrics();
-    print('aaa');
     authenticateUser();
   }
 
@@ -63,7 +62,6 @@ class SplashController extends GetxController {
             androidAuthStrings: androidMessage,
           );
           if (isUserAuthenticated) {
-            print('aaaxxxx');
             showSuccessSnackBar(message: 'Você foi autenticado!');
             await Future.delayed(const Duration(seconds: 2));
             Get.offAndToNamed('/MenuPage');

@@ -25,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     return InputContainer(
       child: GetBuilder<LoginController>(
         builder: (value) => TextField(
+          style: const TextStyle(color: Colors.black),
           cursorColor: Colors.black,
           onChanged: (value) {
             if (type == 'login') {

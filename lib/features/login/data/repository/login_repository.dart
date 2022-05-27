@@ -5,7 +5,7 @@ import 'dart:developer' as developer;
 
 Future<String> loginConnection(String user, String password) async {
   var url =
-      'http://192.168.10.23:8083/eventos2/loginNuvem?Usuario=$user&Senha=$password';
+      'http://24.152.37.103:8083/eventos2/loginNuvem?Usuario=$user&Senha=$password';
   developer.log(url, name: 'URL de Login');
   http.Response resposta;
   try {

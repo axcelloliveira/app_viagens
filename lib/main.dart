@@ -14,14 +14,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-
-  //    initialRoute: '/login',
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'TSilveira Mobile',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
@@ -41,7 +38,6 @@ class MyApp extends StatelessWidget {
             page:()=> const MenuPage(),
             binding: MenuBindings(),
         ),
-
       ],
     );
   }
